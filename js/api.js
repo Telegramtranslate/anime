@@ -1,174 +1,119 @@
-// api.js — работа с Kodik API (через Vercel proxy или напрямую)
+// api.js — работа с Kodik API
+// На Vercel: /api/kodik проксирует запросы (решает CORS)
+// Локально: POST напрямую
+
 class KodikAPI {
   constructor() {
     this.token = CONFIG.KODIK_TOKEN;
-    this.onVercel = window.location.hostname !== 'localhost' 
-      && window.location.hostname !== '127.0.0.1'
-      && window.location.hostname !== ''
-      && !window.location.href.startsWith('file://');
   }
 
   /**
    * Запрос к Kodik API
-   * На Vercel: через /api/kodik (решает CORS)
-   * Локально: напрямую POST, потом CORS-прокси
+   * Стратегия:
+   *   1. /api/kodik (Vercel proxy — всегда работает)
+   *   2. Прямой POST (для локальной разработки)
+   *   3. null → DEMO_ANIME как fallback
    */
   async request(endpoint, params) {
-    var queryStr = '';
-    if (params) {
-      queryStr = Object.keys(params).map(function(k) {
-        return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
-      }).join('&');
-    }
+    var qs = params ? Object.keys(params).map(function(k) {
+      return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+    }).join('&') : '';
 
-    // Если на Vercel — через серверную функцию (нет CORS проблем)
-    if (this.onVercel) {
-      try {
-        var url = '/api/kodik?endpoint=' + endpoint + '&' + queryStr;
-        var resp = await fetch(url);
-        if (resp.ok) {
-          var data = await resp.json();
-          if (data && data.results) return data;
-        }
-      } catch(e) {}
-      return null;
-    }
-
-    // Локально — пробуем напрямую (POST)
-    var apiUrl = CONFIG.KODIK_API_URL + '/' + endpoint + '?token=' + this.token;
-    if (queryStr) apiUrl += '&' + queryStr;
-
+    // 1. Пробуем Vercel proxy
     try {
-      var resp = await fetch(apiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      });
-      if (resp.ok) {
-        var data = await resp.json();
-        if (data && data.results) return data;
+      var r = await fetch('/api/kodik?endpoint=' + endpoint + '&' + qs);
+      if (r.ok) {
+        var d = await r.json();
+        if (d && d.results) return d;
       }
     } catch(e) {}
 
-    // Локально — через CORS-прокси
+    // 2. Пробуем напрямую (POST)
     try {
-      var proxyResp = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(apiUrl));
-      if (proxyResp.ok) {
-        var text = await proxyResp.text();
-        try {
-          var json = JSON.parse(text);
-          if (json && json.results) return json;
-        } catch(e) {}
+      var url2 = CONFIG.KODIK_API_URL + '/' + endpoint + '?token=' + this.token;
+      if (qs) url2 += '&' + qs;
+      var r2 = await fetch(url2, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      });
+      if (r2.ok) {
+        var d2 = await r2.json();
+        if (d2 && d2.results) return d2;
       }
     } catch(e) {}
 
     return null;
   }
 
-  /**
-   * Удалить дубликаты (один shikimori_id — один результат)
-   */
+  // Дедупликация
   deduplicate(arr) {
-    if (!arr || !Array.isArray(arr)) return [];
-    var seen = {}, result = [];
+    if (!arr) return [];
+    var seen = {}, out = [];
     for (var i = 0; i < arr.length; i++) {
       var id = arr[i].shikimori_id || arr[i].id;
-      if (!seen[id]) {
-        seen[id] = true;
-        result.push(arr[i]);
-      }
+      if (!seen[id]) { seen[id] = true; out.push(arr[i]); }
     }
-    return result;
+    return out;
   }
 
-  /**
-   * Популярные аниме (по рейтингу)
-   */
+  // Популярные
   async getPopular(limit, page) {
     limit = limit || 20;
     page = page || 1;
     var data = await this.request('list', {
       types: 'anime-serial,anime',
-      limit: String(limit * 2),
-      page: String(page),
+      limit: String(limit * 2), page: String(page),
       with_material_data: 'true',
-      sort: 'shikimori_rating',
-      order: 'desc'
+      sort: 'shikimori_rating', order: 'desc'
     });
-    if (data && data.results) {
-      data.results = this.deduplicate(data.results).slice(0, limit);
-    }
+    if (data && data.results) data.results = this.deduplicate(data.results).slice(0, limit);
     return data;
   }
 
-  /**
-   * Поиск по названию
-   */
+  // Поиск
   async search(query, limit) {
     limit = limit || 20;
     var data = await this.request('search', {
-      title: query,
-      with_material_data: 'true',
-      limit: String(limit * 2)
+      title: query, with_material_data: 'true', limit: String(limit * 2)
     });
-    if (data && data.results) {
-      data.results = this.deduplicate(data.results).slice(0, limit);
-    }
+    if (data && data.results) data.results = this.deduplicate(data.results).slice(0, limit);
     return data;
   }
 
-  /**
-   * Поиск по Shikimori ID
-   */
+  // Поиск по Shikimori ID
   async getByShikimoriId(id) {
-    var data = await this.request('search', {
-      shikimori_id: String(id),
-      with_material_data: 'true'
-    });
-    if (data && data.results) {
-      data.results = this.deduplicate(data.results);
-    }
+    var data = await this.request('search', { shikimori_id: String(id), with_material_data: 'true' });
+    if (data && data.results) data.results = this.deduplicate(data.results);
     return data;
   }
 
-  /**
-   * Фильтрация каталога
-   */
+  // Фильтрация
   async filter(filters) {
     filters = filters || {};
-    var params = {
-      types: 'anime-serial,anime',
-      with_material_data: 'true',
-      limit: String(filters.limit || 24),
-      page: String(filters.page || 1)
+    var p = {
+      types: 'anime-serial,anime', with_material_data: 'true',
+      limit: String(filters.limit || 24), page: String(filters.page || 1)
     };
-
-    if (filters.genre) params.genre = filters.genre;
-    if (filters.year) params.year = String(filters.year);
-    if (filters.status === 'ongoing') params.material_status = 'ongoing';
-    else if (filters.status === 'released') params.material_status = 'released';
-    else if (filters.status === 'announced') params.material_status = 'announced';
-
+    if (filters.genre) p.genre = filters.genre;
+    if (filters.year) p.year = String(filters.year);
+    if (filters.status === 'ongoing') p.material_status = 'ongoing';
+    else if (filters.status === 'released') p.material_status = 'released';
+    else if (filters.status === 'announced') p.material_status = 'announced';
     switch (filters.sort) {
-      case 'rating': params.sort = 'shikimori_rating'; params.order = 'desc'; break;
-      case 'date':   params.sort = 'updated_at';       params.order = 'desc'; break;
-      case 'title':  params.sort = 'title';             params.order = 'asc';  break;
-      case 'year':   params.sort = 'year';              params.order = 'desc'; break;
-      default:       params.sort = 'shikimori_rating';  params.order = 'desc';
+      case 'rating': p.sort = 'shikimori_rating'; p.order = 'desc'; break;
+      case 'date':   p.sort = 'updated_at';       p.order = 'desc'; break;
+      case 'title':  p.sort = 'title';             p.order = 'asc';  break;
+      case 'year':   p.sort = 'year';              p.order = 'desc'; break;
+      default:       p.sort = 'shikimori_rating';  p.order = 'desc';
     }
-
-    var origLimit = params.limit;
-    params.limit = String(parseInt(params.limit) * 2);
-
-    var data = await this.request('list', params);
-    if (data && data.results) {
-      data.results = this.deduplicate(data.results).slice(0, parseInt(origLimit));
-    }
+    var origLimit = p.limit;
+    p.limit = String(parseInt(p.limit) * 2);
+    var data = await this.request('list', p);
+    if (data && data.results) data.results = this.deduplicate(data.results).slice(0, parseInt(origLimit));
     return data;
   }
 
-  /**
-   * URL плеера Kodik
-   */
+  // URL плеера
   getPlayerUrl(link, quality) {
     quality = quality || '720p';
     if (!link) return '';
@@ -178,19 +123,17 @@ class KodikAPI {
     return cl + '?translations=false&quality=' + quality;
   }
 
-  /**
-   * Нормализовать элемент из Kodik в формат сайта
-   */
+  // Нормализация
   normalizeItem(item) {
     var m = item.material_data || {};
-    // Очищаем название от [ТВ-4, часть 1]
-    var title = (item.title || m.russian || 'Без названия').replace(/\s*\[.*?\]\s*$/, '').trim();
+    var title = (item.title || m.russian || 'Без названия')
+      .replace(/\s*\[.*?\]\s*$/, '').trim();
     return {
       id: item.id,
       shikimoriId: item.shikimori_id || item.id,
       title: title,
       titleOriginal: item.title_orig || m.english || m.japanese || '',
-      poster: '',  // Генерируется в cards.js (HTML-градиент)
+      poster: '',
       description: m.description || 'Описание отсутствует',
       genres: Array.isArray(m.genres) ? m.genres : [],
       year: item.year || m.year || 0,

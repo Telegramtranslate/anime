@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>AnimeVault — Тест API</title>
+<style>body{background:#0a0a0f;color:#e8e8e8;font-family:sans-serif;padding:40px;max-width:800px;margin:0 auto}
+h1{font-family:Cinzel,serif;color:#c9a84c}
+pre{background:#12121a;padding:16px;border-radius:8px;overflow:auto;font-size:13px;border:1px solid rgba(255,255,255,0.06)}
+.ok{color:#4caf50}.fail{color:#e05050}.info{color:#a0a0b8}
+button{background:#c9a84c;color:#0a0a0f;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600}
+button:hover{opacity:0.9}
+</style></head>
+<body>
+<h1>⬡ AnimeVault — Тест API</h1>
+<p class="info">Проверка подключения к Kodik API через Vercel proxy</p>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin:20px 0">
+  <button onclick="testAPI()">🔄 Проверить API</button>
+  <button onclick="testProxy()">🔄 Проверить /api/kodik</button>
+</div>
+
+<pre id="output">Нажми кнопку для проверки...</pre>
+
+<script>
+async function testAPI() {
+  var el = document.getElementById('output');
+  el.textContent = 'Загрузка...';
+  
+  try {
+    var r = await fetch('/api/kodik?endpoint=list&limit=2&types=anime-serial,anime&with_material_data=true&sort=views&order=desc');
+    var text = await r.text();
+    var data;
+    try { data = JSON.parse(text); } catch(e) {}
+    
+    if (data && data.results) {
+      el.innerHTML = '<span class="ok">✅ API РАБОТАЕТ!</span>\n\n'
+        + 'Статус: ' + r.status + '\n'
+        + 'Всего аниме: <span class="ok">' + (data.total || data.results.length) + '</span>\n'
+        + 'Результатов: ' + data.results.length + '\n\n'
+        + 'Первые 2 аниме:\n';
+      for (var i = 0; i < Math.min(data.results.length, 2); i++) {
+        el.innerHTML += '  ' + (i+1) + '. ' + (data.results[i].title || '?') + '\n';
+      }
+    } else {
+      el.innerHTML = '<span class="fail">❌ API ОШИБКА</span>\n\n'
+        + 'Ответ (первые 500 символов):\n' + text.substring(0, 500);
+    }
+  } catch(e) {
+    el.innerHTML = '<span class="fail">❌ ОШИБКА ЗАПРОСА</span>\n\n' + e.message;
+  }
+}
+
+async function testProxy() {
+  var el = document.getElementById('output');
+  el.textContent = 'Проверяем /api/kodik...';
+  
+  var tests = [
+    '/api/kodik?endpoint=list&limit=1&types=anime-serial,anime&with_material_data=true',
+    '/api/kodik?endpoint=search&title=атака&limit=1&with_material_data=true',
+  ];
+  
+  for (var i = 0; i < tests.length; i++) {
+    el.textContent += '\n' + (i+1) + '. ' + tests[i] + '...';
+    try {
+      var r = await fetch(tests[i]);
+      var t = await r.text();
+      var d;
+      try { d = JSON.parse(t); } catch(e) {}
+      if (d && d.results) {
+        el.textContent += ' <span class="ok">✅ OK</span> (' + d.results.length + ' результатов)';
+      } else {
+        el.textContent += ' <span class="fail">❌</span> ' + t.substring(0, 100);
+      }
+    } catch(e) {
+      el.textContent += ' <span class="fail">❌</span> ' + e.message;
+    }
+  }
+}
+</script>
+</body></html>
