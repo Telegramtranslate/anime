@@ -1,0 +1,289 @@
+/* cards.css — стили карточек аниме */
+.anime-card {
+  position: relative;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: 1px solid var(--border-subtle);
+}
+
+.anime-card:hover {
+  transform: translateY(-6px);
+  background: var(--bg-card-hover);
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-card), var(--shadow-gold);
+}
+
+/* Карточка-постер (2:3) */
+.anime-card-poster {
+  aspect-ratio: 2/3;
+}
+
+.anime-card-landscape {
+  aspect-ratio: 16/9;
+}
+
+.anime-card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--transition-slow);
+}
+
+.anime-card:hover .anime-card-image {
+  transform: scale(1.05);
+}
+
+/* HTML-постер с градиентом */
+.anime-card-poster-bg {
+  overflow: hidden;
+}
+
+/* Градиент на карточке */
+.anime-card-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 15, 0.95) 0%,
+    rgba(10, 10, 15, 0.3) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Информация на карточке */
+.anime-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 2;
+}
+
+.anime-card-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+.anime-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.anime-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gold-primary);
+}
+
+.anime-card-rating svg {
+  width: 14px;
+  height: 14px;
+}
+
+.anime-card-genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.anime-card-genre {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--gold-dim);
+  color: var(--gold-light);
+}
+
+/* Hover overlay — появляется при наведении */
+.anime-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 15, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  z-index: 3;
+}
+
+.anime-card:hover .anime-card-overlay {
+  opacity: 1;
+}
+
+.anime-card-overlay .anime-card-description {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+.anime-card-overlay .btn {
+  margin-top: auto;
+}
+
+.anime-card-play {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.2);
+  border: 2px solid var(--gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+
+.anime-card-play svg {
+  width: 20px;
+  height: 20px;
+  color: var(--gold-primary);
+  margin-left: 2px;
+}
+
+.anime-card:hover .anime-card-play {
+  background: var(--gold-primary);
+}
+
+.anime-card:hover .anime-card-play svg {
+  color: #0a0a0f;
+}
+
+/* Прогресс-бар на карточке */
+.anime-card-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 4;
+}
+
+.anime-card-progress-bar {
+  height: 100%;
+  background: var(--gold-primary);
+  transition: width var(--transition-base);
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.5);
+}
+
+/* Кнопка избранного на карточке */
+.anime-card-fav {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(10, 10, 15, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  opacity: 0;
+}
+
+.anime-card:hover .anime-card-fav {
+  opacity: 1;
+}
+
+.anime-card-fav:hover {
+  background: rgba(201, 168, 76, 0.2);
+  color: var(--gold-primary);
+}
+
+.anime-card-fav.active {
+  opacity: 1;
+  color: var(--gold-primary);
+}
+
+.anime-card-fav svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Вид списком */
+.anime-list-view .anime-card {
+  display: flex;
+  flex-direction: row;
+  aspect-ratio: auto;
+  min-height: 120px;
+}
+
+.anime-list-view .anime-card-poster-bg,
+.anime-list-view .anime-card-image {
+  width: 80px;
+  height: 120px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.anime-list-view .anime-card-gradient {
+  display: none;
+}
+
+.anime-list-view .anime-card-info {
+  position: relative;
+  padding: 12px 16px;
+  flex: 1;
+}
+
+.anime-list-view .anime-card-overlay {
+  display: none;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .anime-card-title {
+    font-size: 14px;
+  }
+
+  .anime-card-info {
+    padding: 14px;
+  }
+
+  .anime-card-fav {
+    opacity: 1;
+  }
+
+  .anime-card-overlay {
+    display: none !important;
+  }
+}

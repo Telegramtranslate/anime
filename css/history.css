@@ -1,0 +1,202 @@
+/* history.css — стили страницы истории */
+.history-page {
+  padding-top: calc(var(--header-height) + 30px);
+  min-height: 100vh;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.history-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.history-clear-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(200, 50, 50, 0.1);
+  border: 1px solid rgba(200, 50, 50, 0.3);
+  color: #e05050;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.history-clear-btn:hover {
+  background: rgba(200, 50, 50, 0.2);
+  border-color: rgba(200, 50, 50, 0.5);
+}
+
+/* Группировка по дням */
+.history-day-group {
+  margin-bottom: 32px;
+}
+
+.history-day-label {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--gold-primary);
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Элемент истории */
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.history-item:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-gold);
+}
+
+.history-item-image {
+  width: 56px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.history-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-item-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.history-item-episode {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.history-item-progress {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  max-width: 200px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--gold-primary);
+  border-radius: 2px;
+  transition: width var(--transition-base);
+}
+
+.progress-text {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.history-item-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.history-item-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.history-item .btn {
+  white-space: nowrap;
+}
+
+.history-item-delete {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+}
+
+.history-item-delete:hover {
+  color: #e05050;
+  background: rgba(200, 50, 50, 0.1);
+  border-color: rgba(200, 50, 50, 0.3);
+}
+
+.history-item-delete svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .history-item {
+    flex-wrap: wrap;
+  }
+
+  .history-item-date {
+    width: 100%;
+    text-align: left;
+    margin-top: 4px;
+  }
+
+  .progress-bar {
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .history-item-image {
+    width: 44px;
+    height: 62px;
+  }
+
+  .history-item-title {
+    font-size: 14px;
+  }
+
+  .history-actions {
+    width: 100%;
+  }
+
+  .history-clear-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

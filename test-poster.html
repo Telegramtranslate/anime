@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html><body style="background:#0a0a0f;display:flex;flex-wrap:wrap;gap:20px;padding:40px">
+<script>
+function generatePosterPlaceholder(title, titleOriginal) {
+  var COLORS = [
+    ['1a0a2e','16213e','c9a84c'],['0a1628','1a1a2e','c9a84c'],
+    ['1a0f0a','2e1a10','c9a84c'],['0a1a14','102e1a','c9a84c'],
+    ['1a0a14','2e1020','c9a84c'],['0f0f1a','1a1a2e','c9a84c'],
+    ['0a1a1a','0f2a1a','c9a84c'],['1a1410','2e1a0a','c9a84c'],
+  ];
+  var hash = 0, str = title + (titleOriginal||'');
+  for(var i=0;i<Math.min(str.length,20);i++){hash=((hash<<5)-hash)+str.charCodeAt(i);hash=hash&hash;}
+  var idx=Math.abs(hash)%COLORS.length, c1=COLORS[idx][0], c2=COLORS[idx][1], gold=COLORS[idx][2];
+  var letter=title.charAt(0).toUpperCase();
+  var st=title.length>40?title.substring(0,37)+'...':title;
+  var safe=st.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+  var fs=safe.length>20?10:12;
+  var s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300">'
+    +'<defs><linearGradient id="a" x1="0%" y1="0%" x2="100%" y2="100%">'
+    +"<stop offset='0%' style='stop-color:#"+c1+"'/>"
+    +"<stop offset='100%' style='stop-color:#"+c2+"'/></linearGradient>"
+    +"<pattern id='b' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse'>"
+    +"<circle cx='10' cy='10' r='0.8' fill='#"+gold+"' opacity='0.08'/></pattern></defs>"
+    +'<rect width="200" height="300" fill="url(#a)"/>'
+    +'<rect width="200" height="300" fill="url(#b)"/>'
+    +"<rect x='0' y='0' width='200' height='2' fill='#"+gold+"' opacity='0.4'/>"
+    +"<text x='100' y='130' text-anchor='middle' font-family='Cinzel,serif' font-size='72' font-weight='800' fill='#"+gold+"' opacity='0.15'>"+letter+"</text>"
+    +"<text x='100' y='155' text-anchor='middle' font-size='10' fill='#"+gold+"' opacity='0.3'>&#9673;</text>"
+    +"<text x='100' y='215' text-anchor='middle' font-family='Cinzel,serif' font-size='"+fs+"' font-weight='600' fill='#e8e8e8'>"+safe+"</text></svg>";
+  return 'data:image/svg+xml,'+encodeURIComponent(s);
+}
+
+var titles = [
+  ['Атака Титанов','Shingeki no Kyojin'],
+  ['Врата Штейна','Steins;Gate'],
+  ['Тетрадь смерти','Death Note'],
+  ['Клинок, рассекающий демонов','Kimetsu no Yaiba'],
+  ['Магическая битва','Jujutsu Kaisen'],
+  ['Человек-бензопила','Chainsaw Man'],
+  ['Семья шпиона','Spy x Family'],
+  ['Ванпанчмен','One Punch Man'],
+];
+
+document.write('<h2 style="color:#c9a84c;font-family:Cinzel,serif;width:100%">AnimeVault — тест постеров</h2>');
+titles.forEach(function(t){
+  var uri = generatePosterPlaceholder(t[0], t[1]);
+  document.write('<div style="text-align:center;color:#a0a0b8;font-family:sans-serif;font-size:12px">');
+  document.write('<img src="'+uri+'" style="width:140px;border-radius:8px;border:1px solid rgba(255,255,255,0.06)">');
+  document.write('<br>'+t[0]+'</div>');
+});
+</script>
+</body></html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Избранное — AnimeVault. Сохраняйте любимые аниме и смотрите их в любое время.">
+  <title>AnimeVault — Избранное</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/favorites.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+  <div id="header-placeholder"></div>
+
+  <main class="favorites-page">
+    <div class="container">
+      <!-- Заголовок -->
+      <div class="favorites-header">
+        <div>
+          <h1 class="section-title" style="margin-bottom:8px">Избранное</h1>
+          <div class="favorites-count" id="favoritesCount">
+            <span>0</span> аниме в избранном
+          </div>
+        </div>
+        <div class="favorites-sort">
+          <label for="favoritesSort">Сортировка:</label>
+          <select id="favoritesSort">
+            <option value="date">По дате добавления</option>
+            <option value="title">По названию</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Сетка избранного -->
+      <div class="favorites-grid" id="favoritesGrid">
+        <!-- Пустое состояние (JS) или карточки -->
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <!-- JavaScript -->
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/cards.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+/* variables.css — CSS переменные проекта AnimeVault */
+:root {
+  /* ═══════════════════ ФОНЫ ═══════════════════ */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #0d0d14;
+  --bg-tertiary: #12121a;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+  --bg-overlay: rgba(10, 10, 15, 0.85);
+
+  /* ═══════════════════ АКЦЕНТЫ — МАТОВОЕ ЗОЛОТО ═══════════════════ */
+  --gold-primary: #c9a84c;
+  --gold-secondary: #b8973e;
+  --gold-light: #d4af61;
+  --gold-dim: rgba(201, 168, 76, 0.15);
+  --gold-glow: rgba(201, 168, 76, 0.3);
+
+  /* ═══════════════════ ТЕКСТ ═══════════════════ */
+  --text-primary: #e8e8e8;
+  --text-secondary: #a0a0b8;
+  --text-muted: #5a5a72;
+
+  /* ═══════════════════ ГРАНИЦЫ ═══════════════════ */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-gold: rgba(201, 168, 76, 0.4);
+
+  /* ═══════════════════ ШРИФТЫ ═══════════════════ */
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* ═══════════════════ РАЗМЕРЫ ═══════════════════ */
+  --header-height: 70px;
+  --card-radius: 12px;
+  --section-gap: 80px;
+  --container-width: 1280px;
+  --container-padding: 20px;
+
+  /* ═══════════════════ ПЕРЕХОДЫ ═══════════════════ */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* ═══════════════════ ТЕНИ ═══════════════════ */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-gold: 0 0 20px rgba(201, 168, 76, 0.25);
+}

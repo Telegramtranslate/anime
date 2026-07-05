@@ -1,0 +1,130 @@
+/* slider.css — стили слайдеров */
+.slider-section {
+  overflow: hidden;
+}
+
+.slider-container {
+  position: relative;
+}
+
+.slider-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+  /* Скрываем скроллбар в Firefox */
+  scrollbar-width: none;
+}
+
+/* Скрываем скроллбар в Chrome/Safari */
+.slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.slider-track > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* Слайдер в тренде — большие карточки 16:9 */
+.trending-slider .slider-track > * {
+  width: 420px;
+}
+
+/* Слайдер популярного — карточки 2:3 */
+.popular-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Слайдер новых серий */
+.new-episodes-slider .slider-track > * {
+  width: 280px;
+}
+
+/* Продолжить просмотр */
+.continue-slider .slider-track > * {
+  width: 280px;
+}
+
+/* Кнопки навигации слайдера */
+.slider-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.slider-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.slider-btn:hover {
+  background: var(--gold-dim);
+  border-color: var(--border-gold);
+  color: var(--gold-primary);
+}
+
+.slider-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+  .popular-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .trending-slider .slider-track > * {
+    width: 340px;
+  }
+}
+
+@media (max-width: 768px) {
+  .popular-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trending-slider .slider-track > * {
+    width: 280px;
+  }
+
+  .slider-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .popular-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .trending-slider .slider-track > * {
+    width: 260px;
+  }
+
+  .new-episodes-slider .slider-track > *,
+  .continue-slider .slider-track > * {
+    width: 220px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .popular-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

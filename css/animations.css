@@ -1,0 +1,171 @@
+/* animations.css — все анимации и transitions */
+
+/* ═══════════════════ REVEAL — ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ ═══════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ═══════════════════ SHIMMER — ЗОЛОТОЙ БЛЕСК ═══════════════════ */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-loading {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--bg-card-hover) 37%,
+    var(--gold-dim) 50%,
+    var(--bg-card-hover) 63%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ═══════════════════ GOLD PULSE — ПУЛЬС ЗОЛОТОГО СВЕЧЕНИЯ ═══════════════════ */
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(201, 168, 76, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(201, 168, 76, 0.5); }
+}
+
+.gold-pulse {
+  animation: goldPulse 2s ease-in-out infinite;
+}
+
+/* ═══════════════════ SCROLL BOUNCE — ИНДИКАТОР СКРОЛЛА ═══════════════════ */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(8px); opacity: 0.4; }
+}
+
+/* ═══════════════════ ROTATE GOLD — ЛОУДЕР ═══════════════════ */
+@keyframes rotateGold {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--gold-primary);
+  border-radius: 50%;
+  animation: rotateGold 0.8s linear infinite;
+}
+
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  width: 100%;
+}
+
+/* ═══════════════════ PAGE IN — ПОЯВЛЕНИЕ СТРАНИЦЫ ═══════════════════ */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: pageIn 0.4s ease forwards;
+}
+
+/* ═══════════════════ COUNT UP — АНИМАЦИЯ ЧИСЕЛ ═══════════════════ */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════ FADE IN / OUT ═══════════════════ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+/* ═══════════════════ SCALE IN ═══════════════════ */
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease forwards;
+}
+
+/* ═══════════════════ SLIDE UP ═══════════════════ */
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease forwards;
+}
+
+/* ═══════════════════ CARD HOVER ═══════════════════ */
+.card-hover-effect {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card), var(--shadow-gold);
+}
+
+/* ═══════════════════ GOLD GRADIENT ANIMATION ═══════════════════ */
+@keyframes goldGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gold-gradient-anim {
+  background: linear-gradient(270deg, var(--gold-primary), var(--gold-light), var(--gold-secondary));
+  background-size: 300% 300%;
+  animation: goldGradientShift 3s ease infinite;
+}
+
+/* ═══════════════════ REDUCED MOTION ═══════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

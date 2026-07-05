@@ -1,0 +1,344 @@
+/* catalog.css — стили каталога и фильтров */
+.catalog-page {
+  padding-top: calc(var(--header-height) + 30px);
+  min-height: 100vh;
+}
+
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+/* ═══════════════════ ФИЛЬТРЫ ═══════════════════ */
+.catalog-filters {
+  position: sticky;
+  top: calc(var(--header-height) + 30px);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.filters-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--gold-primary);
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-group:last-child {
+  margin-bottom: 0;
+}
+
+.filter-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Поиск в фильтрах */
+.filter-search {
+  position: relative;
+}
+
+.filter-search input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: border-color var(--transition-fast);
+}
+
+.filter-search input:focus {
+  border-color: var(--border-gold);
+}
+
+.filter-search input::placeholder {
+  color: var(--text-muted);
+}
+
+.filter-search .search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+/* Select стилизованный */
+.filter-select {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235a5a72'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.filter-select:focus {
+  border-color: var(--border-gold);
+  outline: none;
+}
+
+.filter-select option {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* Чекбоксы жанров */
+.genre-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.genre-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.genre-checkbox:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.genre-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.genre-checkbox .checkmark {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--text-muted);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.genre-checkbox input:checked + .checkmark {
+  background: var(--gold-primary);
+  border-color: var(--gold-primary);
+}
+
+.genre-checkbox input:checked + .checkmark::after {
+  content: '✓';
+  font-size: 10px;
+  color: #0a0a0f;
+  font-weight: 700;
+}
+
+.genre-checkbox input:checked ~ span:last-child {
+  color: var(--gold-primary);
+}
+
+/* Кнопки фильтров */
+.filter-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.filter-actions .btn {
+  width: 100%;
+}
+
+/* ═══════════════════ РЕЗУЛЬТАТЫ ═══════════════════ */
+.catalog-results {
+  min-height: 400px;
+}
+
+.catalog-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+.catalog-count {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.catalog-count span {
+  color: var(--gold-primary);
+  font-weight: 600;
+}
+
+.catalog-view-toggle {
+  display: flex;
+  gap: 4px;
+}
+
+.view-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.view-btn:hover {
+  color: var(--text-secondary);
+  background: var(--bg-card);
+}
+
+.view-btn.active {
+  color: var(--gold-primary);
+  background: var(--gold-dim);
+  border-color: var(--border-gold);
+}
+
+.view-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Сетка результатов */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.catalog-grid.list-view {
+  grid-template-columns: 1fr;
+}
+
+/* Пагинация */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pagination-btn {
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.pagination-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  border-color: var(--border-gold);
+}
+
+.pagination-btn.active {
+  background: var(--gold-dim);
+  color: var(--gold-primary);
+  border-color: var(--border-gold);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+  .catalog-layout {
+    grid-template-columns: 240px 1fr;
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .catalog-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-filters {
+    position: static;
+    margin-bottom: 20px;
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .catalog-toolbar {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .catalog-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

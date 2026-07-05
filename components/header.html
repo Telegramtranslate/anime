@@ -1,0 +1,35 @@
+<header class="header" id="mainHeader">
+  <div class="container">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Anime<span class="logo-accent">Vault</span></span>
+    </a>
+    
+    <nav class="nav" id="mainNav">
+      <a href="index.html" class="nav-link">Главная</a>
+      <a href="catalog.html" class="nav-link">Каталог</a>
+      <a href="favorites.html" class="nav-link">Избранное</a>
+      <a href="history.html" class="nav-link">История</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="search-toggle" id="searchToggle" title="Поиск">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+      <button class="burger" id="burger" title="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Выпадающий поиск -->
+  <div class="search-dropdown" id="searchDropdown">
+    <div class="container">
+      <input type="text" id="globalSearch" placeholder="Поиск аниме..." autocomplete="off">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+</header>

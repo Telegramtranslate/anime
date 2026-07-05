@@ -1,0 +1,200 @@
+/* hero.css — стили hero-секции главной страницы */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  max-height: 900px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#heroCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 15, 0.92) 0%,
+    rgba(10, 10, 15, 0.7) 50%,
+    rgba(10, 10, 15, 0.5) 100%
+  );
+  z-index: 2;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transform: scale(1.05);
+  transition: transform 0.1s ease-out;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 20px;
+  transform: translateY(-40px);
+}
+
+.hero-logo {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 10vw, 96px);
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: 6px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.hero-logo .gold {
+  color: var(--gold-primary);
+}
+
+.hero-divider {
+  width: 120px;
+  height: 2px;
+  margin: 24px auto;
+  background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+  position: relative;
+}
+
+.hero-divider::before,
+.hero-divider::after {
+  content: '◆';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 8px;
+  color: var(--gold-primary);
+}
+
+.hero-divider::before {
+  left: -4px;
+}
+
+.hero-divider::after {
+  right: -4px;
+}
+
+.hero-slogan {
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--text-secondary);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+  font-weight: 300;
+}
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 40px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0a0a0f;
+  background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 4px 25px rgba(201, 168, 76, 0.3);
+  transition: all var(--transition-base);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 35px rgba(201, 168, 76, 0.45);
+}
+
+.hero-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Scroll индикатор */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.scroll-indicator .mouse {
+  width: 24px;
+  height: 36px;
+  border: 2px solid var(--text-muted);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.scroll-indicator .mouse-dot {
+  width: 3px;
+  height: 8px;
+  background: var(--gold-primary);
+  border-radius: 2px;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+.scroll-indicator span {
+  animation: scrollBounce 2s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 500px;
+    max-height: 700px;
+  }
+
+  .hero-logo {
+    letter-spacing: 3px;
+  }
+
+  .hero-slogan {
+    letter-spacing: 2px;
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-btn {
+    padding: 14px 28px;
+    font-size: 13px;
+  }
+}
